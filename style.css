@@ -1,0 +1,182 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f4f8; 
+    color: #333;
+}
+
+/* Animasi Fade-In Umum */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.container { display: none; }
+.container.active { display: flex; justify-content: center; align-items: center; min-height: 100vh; animation: fadeIn 0.5s ease-out forwards; }
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 86, 210, 0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+}
+
+.card h2 { color: #0056d2; margin-bottom: 10px; }
+.card input {
+    width: 100%; padding: 10px; margin: 15px 0;
+    border: 1px solid #ccc; border-radius: 6px; outline: none;
+}
+.card input:focus { border-color: #0056d2; }
+.card button, .btn-submit {
+    background: #0056d2; color: white; border: none;
+    padding: 10px 20px; border-radius: 6px; cursor: pointer; width: 100%;
+    transition: transform 0.1s; 
+}
+
+/* Efek tombol mengecil saat ditekan */
+.card button:active, .btn-submit:active, .btn-cancel:active, 
+.fab-right:active, .fab-left:active, .fab-tugas:active, .fab-notes:active {
+    transform: scale(0.95);
+}
+
+.error-msg { color: red; font-size: 14px; display: none; margin-top: 10px; }
+
+/* Desain Teks Peringatan Alpha */
+.warning-text {
+    color: #e74c3c;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Desain Tag Panggilan */
+.tag-container {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    margin-top: -5px; margin-bottom: 15px;
+}
+.suggestion-tag {
+    background: #e0eaf5; color: #0056d2; padding: 6px 12px;
+    border-radius: 20px; font-size: 14px; font-weight: bold;
+    cursor: pointer; border: 1px solid #0056d2; transition: 0.2s;
+}
+.suggestion-tag:hover { background: #0056d2; color: white; }
+
+.header { text-align: center; margin-bottom: 20px; color: #0056d2; }
+
+.content { width: 100%; max-width: 600px; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 150px; }
+
+#attendance-list { list-style: none; }
+#attendance-list li {
+    padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;
+}
+.status-hadir { color: green; font-weight: bold; }
+.status-izin { color: orange; font-weight: bold; }
+.status-alpha { color: red; font-weight: bold; }
+
+/* Floating Action Buttons (Fixed Position) */
+.fab-right {
+    position: fixed; bottom: 30px; right: 30px;
+    background: #0056d2; color: white; border: none;
+    border-radius: 30px; padding: 15px 25px; font-size: 16px;
+    font-weight: bold; box-shadow: 0 4px 10px rgba(0, 86, 210, 0.4);
+    cursor: pointer; transition: 0.3s, transform 0.1s;
+    z-index: 100; 
+}
+.fab-right:hover { background: #0041a3; }
+
+/* Tombol Notes di Atas Tombol Absen */
+.fab-notes {
+    position: fixed; bottom: 95px; right: 30px;
+    background: #ffffff; color: #0056d2; border: 2px solid #0056d2;
+    border-radius: 30px; padding: 12px 22px; font-size: 15px;
+    font-weight: bold; box-shadow: 0 4px 10px rgba(0, 86, 210, 0.1);
+    cursor: pointer; transition: 0.3s, transform 0.1s;
+    z-index: 100;
+}
+.fab-notes:hover { background: #f0f4f8; }
+
+.fab-left {
+    position: fixed; bottom: 30px; left: 30px;
+    background: #ffffff; color: #0056d2; border: 2px solid #0056d2;
+    border-radius: 30px; padding: 15px 25px; font-size: 16px;
+    font-weight: bold; box-shadow: 0 4px 10px rgba(0, 86, 210, 0.1);
+    cursor: pointer; transition: 0.3s, transform 0.1s;
+    z-index: 100;
+}
+.fab-left:hover { background: #f0f4f8; }
+
+.fab-tugas {
+    position: fixed; bottom: 95px; left: 30px;
+    background: #ffffff; color: #0056d2; border: 2px solid #0056d2;
+    border-radius: 30px; padding: 12px 22px; font-size: 15px;
+    font-weight: bold; box-shadow: 0 4px 10px rgba(0, 86, 210, 0.1);
+    cursor: pointer; transition: 0.3s, transform 0.1s;
+    z-index: 100;
+}
+.fab-tugas:hover { background: #f0f4f8; }
+
+/* FADE IN/OUT MODAL CSS LENGKAP */
+.modal {
+    visibility: hidden;
+    opacity: 0;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); 
+    display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+}
+.modal.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal-content {
+    background: white; padding: 25px; border-radius: 12px; width: 90%; max-width: 400px;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+.modal.show .modal-content {
+    transform: scale(1); 
+}
+
+.modal-content label { display: block; margin-top: 15px; font-weight: bold; color: #0056d2;}
+.modal-content select, .modal-content input[type="text"], .modal-content input[type="file"], .modal-content textarea {
+    width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px;
+}
+.modal-content textarea { resize: vertical; } /* Allow resizing notes box vertically */
+.modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+.btn-cancel { background: #ccc; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; transition: transform 0.1s; }
+
+.jadwal-table {
+    width: 100%; 
+    border-collapse: separate; 
+    border-spacing: 5px 10px;
+    margin-top: 15px; 
+    text-align: center;
+}
+.jadwal-table th, .jadwal-table td {
+    padding: 12px; 
+    background-color: #0056d2; 
+    color: white; 
+    border: 3px solid white; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.jadwal-table th {
+    background-color: #0041a3; 
+}
+
+.jadwal-date {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #0056d2;
+}

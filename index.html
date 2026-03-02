@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi 11 DKV 1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="login-section" class="container active">
+        <div class="card">
+            <h2>Absensi 11 DKV 1</h2>
+            <p>Masukkan nama lengkap:</p>
+            <input type="text" id="input-nama" placeholder="Contoh: roby..." onkeyup="cariNama()">
+            
+            <div id="tag-container" class="tag-container"></div>
+            
+            <p class="warning-text">Absensi otomatis alpha jika melewati jam 7:15 pagi!</p>
+            
+            <button onclick="login()">Masuk</button>
+            <p id="login-error" class="error-msg"></p>
+        </div>
+    </div>
+
+    <div id="main-section" class="container" style="display: none; flex-direction: column; align-items: center; padding: 20px;">
+        <div class="header">
+            <h2 id="welcome-msg">Halo, </h2>
+            <p id="current-time"></p>
+        </div>
+        
+        <div class="content">
+            <h3>Daftar Hadir 11 DKV 1 Hari Ini</h3>
+            <ul id="attendance-list">
+                </ul>
+        </div>
+
+        <button class="fab-tugas" onclick="bukaTugas()">Tugas</button>
+        <button class="fab-left" onclick="bukaJadwal()">Jadwal</button>
+        
+        <button class="fab-notes" onclick="bukaKirimNotes()">Notes</button>
+        <button class="fab-right" onclick="cekBatasAbsen()">Absen</button>
+    </div>
+
+    <div id="tugas-modal" class="modal">
+        <div class="modal-content" style="max-width: 500px; background: #f0f4f8;">
+            <h3 style="text-align: center; color: #0056d2;">Daftar Tugas Kelas</h3>
+            <table class="jadwal-table">
+                <tr>
+                    <th>Tugas/Ujian</th>
+                    <th>Mapel</th>
+                    <th>Deadline</th>
+                </tr>
+                <tr>
+                    <td>Figma UI</td>
+                    <td>KK-Web Desain</td>
+                    <td>Kamis</td>
+                </tr>
+            </table>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="tutupTugas()">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="jadwal-modal" class="modal">
+        <div class="modal-content" style="max-width: 500px; background: #f0f4f8;">
+            <h3 style="text-align: center; color: #0056d2;">Jadwal Pelajaran</h3>
+            <table class="jadwal-table">
+                <tr>
+                    <th>Hari</th>
+                    <th>Mata Pelajaran</th>
+                </tr>
+                <tr>
+                    <td>Senin</td>
+                    <td>KK-A3D, B.Ind, PKK</td>
+                </tr>
+                <tr>
+                    <td>Selasa</td>
+                    <td>PKK, B.Ing, MTK, PAI</td>
+                </tr>
+                <tr>
+                    <td>Rabu</td>
+                    <td>MLK-PS, PJOK, PPkn</td>
+                </tr>
+                <tr>
+                    <td>Kamis</td>
+                    <td>SEJ, BM, KK-WEB DESAIN, Bk/Bp, B.Ing</td>
+                </tr>
+                <tr>
+                    <td>Jumat</td>
+                    <td>KK-GD, KK-WEB DESAIN, KK-MPP-CINEMA</td>
+                </tr>
+            </table>
+            <p class="jadwal-date">Senin, 2 Maret 2026</p>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="tutupJadwal()">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="tolak-modal" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <h3 style="color: #e74c3c;">Batas Waktu Habis</h3>
+            <p style="margin-top: 15px; margin-bottom: 25px;">Sudah tidak bisa melakukan absen karena melewati jam 7:15</p>
+            <button class="btn-submit" onclick="tutupTolak()" style="background-color: #0056d2;">Oke</button>
+        </div>
+    </div>
+
+    <div id="absen-modal" class="modal">
+        <div class="modal-content">
+            <h3>Form Absensi</h3>
+            <label for="status">Keterangan:</label>
+            <select id="status" onchange="cekStatus()">
+                <option value="Hadir">Hadir</option>
+                <option value="Izin/Sakit">Izin/Sakit</option>
+            </select>
+
+            <div id="izin-fields" style="display: none;">
+                <label for="alasan">Alasan Izin/Sakit:</label>
+                <input type="text" id="alasan" placeholder="Tulis keterangan...">
+                
+                <label for="foto">Lampiran Foto (Opsional):</label>
+                <input type="file" id="foto" accept="image/*">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="tutupModal()">Batal</button>
+                <button class="btn-submit" onclick="submitAbsen()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="kirim-notes-modal" class="modal">
+        <div class="modal-content">
+            <h3 style="color: #0056d2;">Tinggalkan Pesan</h3>
+            <label>Pengirim:</label>
+            <input type="text" id="pengirim-notes" readonly style="background: #e0eaf5; cursor: not-allowed;">
+            
+            <label>Pesan:</label>
+            <textarea id="isi-notes" rows="4" placeholder="Tulis sesuatu untuk kelas..."></textarea>
+
+            <div class="modal-actions" style="flex-direction: column;">
+                <button class="btn-submit" onclick="submitNotes()">Send</button>
+                <button class="btn-cancel" onclick="bukaLihatNotes()" style="background: #e0eaf5; color: #0056d2;">Lihat Notes Teman</button>
+                <button class="btn-cancel" onclick="tutupKirimNotes()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="lihat-notes-modal" class="modal">
+        <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
+            <h3 style="color: #0056d2; margin-bottom: 15px;">Pesan Kelas</h3>
+            <ul id="list-notes" style="list-style: none; padding: 0;">
+                </ul>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="tutupLihatNotes()">Kembali</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
