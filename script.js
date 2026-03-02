@@ -1,6 +1,6 @@
 // ==========================================
 // ⚠️ MASUKKAN URL GOOGLE APPS SCRIPT-MU DI SINI ⚠️
-const scriptURL = 'Phttps://script.google.com/macros/s/AKfycbx2B522MSWc_L48JbsDqrc9bHO3xDnf8TQHn53nDC3TUoKoaFISEeb2FGJZYzDdbZSwZw/exec'; 
+const scriptURL = 'https://script.google.com/macros/s/AKfycbyUMC53aqpiIfhR96FqpmgrIfIkv1j2RK3M6GzBiA34CRyHoNGdX2s_ZlSmqH0zLZ2GBg/exec'; 
 // Contoh: 'https://script.google.com/macros/s/AKfycby.../exec'
 // ==========================================
 
